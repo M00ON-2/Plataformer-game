@@ -6,6 +6,12 @@ WIDTH = 800
 HEIGHT = 600
 TITLE = "naosei"
 
+# main
+
+def iniciar
+    update()
+
+iniciar()
 # * update() atualizar o jogo toda hora
 # draw() desenha o jogo 
 # actor() objeto/coisa com imagem que pode aparecer na tela 
