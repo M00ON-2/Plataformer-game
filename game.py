@@ -11,10 +11,7 @@ TITLE = "naosei"
 def iniciar
     update()
 
-iniciar()
-
-
- if keyboard.left:
+if keyboard.left:
    hero.x -= 5  # move 5 pixels para esquerda
  if keyboard.right:
     hero.x += 5  # move 5 pixels para direita
@@ -22,6 +19,8 @@ iniciar()
     hero.y += 5 
  if keyboard.down;
     hero.y += 5
+
+iniciar()
 
 
 # * update() atualizar o jogo toda hora
