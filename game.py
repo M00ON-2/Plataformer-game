@@ -12,6 +12,18 @@ def iniciar
     update()
 
 iniciar()
+
+
+ if keyboard.left:
+   hero.x -= 5  # move 5 pixels para esquerda
+ if keyboard.right:
+    hero.x += 5  # move 5 pixels para direita
+ if keyboard.up:
+    hero.y += 5 
+ if keyboard.down;
+    hero.y += 5
+
+
 # * update() atualizar o jogo toda hora
 # draw() desenha o jogo 
 # actor() objeto/coisa com imagem que pode aparecer na tela 
