@@ -6,6 +6,7 @@ WIDTH = 800
 HEIGHT = 600
 TITLE = "BOSTAAAAAAAAAAA"
 
+<<<<<<< HEAD
 def update():
     pass
 
@@ -16,6 +17,31 @@ def draw():
 pgzrun.go()
     
 # * update() atualizar o jogo toda hora 
+=======
+# Cria o personagem principal (hero) com a imagem no assets
+hero = Actor("hero_idle", (400, 300))
+
+def draw():
+    screen.clear()
+    hero.draw()
+
+# Atualiza o jogo (movimento, lógica, etc)
+def update():
+    if keyboard.left:
+        hero.x -= 5
+    if keyboard.right:
+        hero.x += 5
+    if keyboard.up:
+        hero.y -= 5
+    if keyboard.down:
+        hero.y += 5
+
+pgzrun.go()
+
+
+
+# * update() atualizar o jogo toda hora
+>>>>>>> 360f9978df28702ca55c3d3680d9ec03125884e3
 # draw() desenha o jogo 
 # actor() objeto/coisa com imagem que pode aparecer na tela 
 # * WIDTH e HEIGHT é pra definição do tamanho da tela
