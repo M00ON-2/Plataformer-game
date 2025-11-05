@@ -13,7 +13,7 @@ TITLE = "Platformer Adventure"
 
 # === GAME STATE ===
 game_state = "menu"  # "menu", "playing", "dead"
-music_on = True
+music_on = True       # música ligada por padrão
 sound_on = True
 
 # === ENTITIES ===
@@ -33,7 +33,7 @@ class Hero:
         self.on_ground = False
         self.frame = 0
         self.anim_timer = 0
-        self.state = "idle"  # "idle" or "walk"
+        self.state = "idle"
 
     def rect(self):
         return Rect(self.actor.x - 8, self.actor.y - 16, 16, 32)
@@ -42,7 +42,6 @@ class Hero:
         if self.dead:
             return
 
-        # Movement
         move = 0
         if keyboard.left:
             self.actor.x -= 3
@@ -51,20 +50,19 @@ class Hero:
             self.actor.x += 3
             move = 1
 
-        # Gravity
+        # Gravidade
         self.vel_y += self.gravity
         self.actor.y += self.vel_y
 
         self.on_ground = False
         self.check_platform_collisions()
 
-        # Jump
+        # Pulo
         if self.on_ground and keyboard.up:
             self.vel_y = -10
 
-        # Animation
+        # Animação
         if move != 0:
-            self.actor.angle = 0
             self.actor.flip_x = move < 0
             self.state = "walk"
         else:
@@ -110,7 +108,6 @@ class Enemy:
         return Rect(self.actor.x - 8, self.actor.y - 8, 16, 16)
 
     def update(self):
-        # Move left-right between limits
         self.actor.x += self.direction * 2
         if self.actor.x <= self.left_limit or self.actor.x >= self.right_limit:
             self.direction *= -1
@@ -124,7 +121,6 @@ class Enemy:
             self.frame = (self.frame + 1) % 4
             self.actor.image = f"enemy_walk{self.frame + 1}"
 
-# Criação de inimigos
 enemies.append(Enemy(300, 200, 260, 340))
 enemies.append(Enemy(500, 150, 460, 560))
 
@@ -161,7 +157,14 @@ def toggle_music():
 def toggle_sound():
     global sound_on
     sound_on = not sound_on
+    if sound_on:
+        # som de clique de menu (ex: menu_click.wav)
+        sounds.menu_click.play()
 
+# Inicia a música automaticamente
+def start_music():
+    if music_on:
+        music.play("bg_music")
 
 # === MENU ===
 def draw_menu():
@@ -171,19 +174,41 @@ def draw_menu():
     screen.draw.text(f"2 - Music: {'ON' if music_on else 'OFF'}", center=(WIDTH // 2, 250), fontsize=40)
     screen.draw.text(f"3 - Sounds: {'ON' if sound_on else 'OFF'}", center=(WIDTH // 2, 320), fontsize=40)
     screen.draw.text("4 - Exit", center=(WIDTH // 2, 390), fontsize=40)
-1
+
+# === MENU ===
+key_cooldown = 0  # contador de frames de espera
+
 def update_menu():
-    global game_state
+    global game_state, key_cooldown
+
+    # diminui o cooldown a cada frame
+    if key_cooldown > 0:
+        key_cooldown -= 1
+        return
+
     if keyboard.K_1:
+        if sound_on:
+            sounds.menu_click.play()
         game_state = "playing"
-        if music_on:
-            music.play("bg_music")
+        key_cooldown = 10  # espera ~0.25s
+
     elif keyboard.K_2:
         toggle_music()
+        if sound_on:
+            sounds.menu_click.play()
+        key_cooldown = 10
+
     elif keyboard.K_3:
         toggle_sound()
+        if sound_on:
+            sounds.menu_click.play()
+        key_cooldown = 10
+
     elif keyboard.K_4:
+        if sound_on:
+            sounds.menu_click.play()
         exit()
+        key_cooldown = 10
 
 
 # === MAIN UPDATE ===
@@ -199,7 +224,6 @@ def update():
         for enemy in enemies:
             enemy.update()
 
-        # Check collisions with enemies
         hero_rect = hero.rect()
         for enemy in enemies:
             if hero_rect.colliderect(enemy.rect()):
@@ -208,7 +232,6 @@ def update():
                 if sound_on:
                     sounds.hit.play()
                 break
-
 
 # === DRAW ===
 def draw():
@@ -227,5 +250,7 @@ def draw():
         screen.draw.text("YOU DIED!", center=(WIDTH // 2, HEIGHT // 2),
                          fontsize=60, color="red", shadow=(2, 2))
 
+# === START ===
+start_music()  # música toca ao abrir o jogo
 
 pgzrun.go()
