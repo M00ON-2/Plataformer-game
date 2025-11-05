@@ -1,6 +1,5 @@
 import pgzrun
 import math
-import random
 from pygame import Rect
 
 TILE_SIZE = 18
@@ -9,7 +8,7 @@ COLS = 20
 
 WIDTH = TILE_SIZE * ROWS
 HEIGHT = TILE_SIZE * COLS
-TITLE = "COLISÃO SUAVE :)"
+TITLE = "COLISÃO CORRIGIDA"
 
 plataformas = []
 coins = []
@@ -24,17 +23,15 @@ morto = False
 def load_map(caminho):
     with open(caminho, "r") as f:
         linhas = f.read().strip().split("\n")
-
     for y, linha in enumerate(linhas):
         valores = linha.split(",")
         for x, valor in enumerate(valores):
-            if valor in ["21", "22", "23"]:  # terra
+            if valor in ["21", "22", "23"]:
                 imagem = "bloco1"
-            elif valor in ["153", "154", "155", "156"]:  # nuvens
+            elif valor in ["153", "154", "155", "156"]:
                 imagem = "nuvem"
             else:
                 continue
-
             bloco = Actor(imagem)
             bloco.x = x * TILE_SIZE + TILE_SIZE // 2
             bloco.y = y * TILE_SIZE + TILE_SIZE // 2
@@ -44,7 +41,6 @@ def load_map(caminho):
 def load_coins(caminho):
     with open(caminho, "r") as f:
         linhas = f.read().strip().split("\n")
-
     for y, linha in enumerate(linhas):
         valores = linha.split(",")
         for x, valor in enumerate(valores):
@@ -58,7 +54,6 @@ def load_coins(caminho):
 def load_obstacles(caminho):
     with open(caminho, "r") as f:
         linhas = f.read().strip().split("\n")
-
     for y, linha in enumerate(linhas):
         valores = linha.split(",")
         for x, valor in enumerate(valores):
@@ -69,7 +64,6 @@ def load_obstacles(caminho):
                 obstacles.append(obstacle)
 
 
-# carrega os arquivos
 load_map('C:/Users/PC/Documents/GitHub/roguelike/game/plataformer.csv')
 load_coins('C:/Users/PC/Documents/GitHub/roguelike/game/coins.csv')
 load_obstacles('C:/Users/PC/Documents/GitHub/roguelike/game/obstacles.csv')
@@ -77,11 +71,10 @@ load_obstacles('C:/Users/PC/Documents/GitHub/roguelike/game/obstacles.csv')
 
 def update():
     global vel_y, morto
-
     if morto:
         return
 
-    # movimento horizontal
+    # movimento lateral
     if keyboard.left:
         heroi.x -= 3
     if keyboard.right:
@@ -91,19 +84,22 @@ def update():
     vel_y += gravidade
     heroi.y += vel_y
 
-    # retângulo do herói
     heroi_rect = Rect(heroi.x - 8, heroi.y - 16, 16, 32)
+    no_chao = False
 
     # --- colisão com plataformas ---
-    no_chao = False
     for bloco in plataformas:
         bloco_rect = Rect(bloco.x - 9, bloco.y - 9, 18, 18)
-        if heroi_rect.colliderect(bloco_rect) and vel_y > 0:
-            heroi.y = bloco.y - 18  # ajusta o herói em cima do bloco
-            vel_y = 0
-            no_chao = True
 
-    # pular
+        # Verifica colisão vertical realista
+        if heroi_rect.colliderect(bloco_rect):
+            # só para o herói se ele estiver DESCENDO e VINDO DE CIMA
+            if vel_y > 0 and heroi.y < bloco.y:
+                heroi.y = bloco.y - 18
+                vel_y = 0
+                no_chao = True
+
+    # pular somente se realmente estiver no chão
     if no_chao and keyboard.up:
         vel_y = -10
 
