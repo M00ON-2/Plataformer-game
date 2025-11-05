@@ -14,26 +14,27 @@ TITLE = "BOSTAAAAAAAAAAA"
 plataformas = []
 heroi = Actor("heroi", (100, 100))
 
-def carregar_mapa(caminho):
+def load_map(caminho):
     with open(caminho, "r") as f:
         linhas = f.read().strip().split("\n")
 
     for y, linha in enumerate(linhas):
         valores = linha.split(",")
         for x, valor in enumerate(valores):
-            if valor in ["21", "22", "23"]:   # tipo 1 de bloco
+            if valor in ["21", "22", "23"]: #terra
                 imagem = "bloco1"
-            elif valor in ["24", "25", "26"]: # tipo 2 de bloco
-                imagem = "bloco2"
+            elif valor in ["153", "154", "155", "156"]:  #nuvens
+                imagem = "nuvem"
             else:
-                continue  # ignora células vazias
+                continue
 
             bloco = Actor(imagem)
             bloco.x = x * TILE_SIZE + TILE_SIZE // 2
             bloco.y = y * TILE_SIZE + TILE_SIZE // 2
             plataformas.append(bloco)
 
-def carregar_coins(caminho):
+
+def load_coins(caminho):
     with open(caminho, "r") as f:
         linhas = f.read().strip().split("\n")
 
@@ -46,9 +47,23 @@ def carregar_coins(caminho):
                 coin.y = y * TILE_SIZE + TILE_SIZE // 2
                 plataformas.append(coin)
 
+def load_obstacles(caminho):
+     with open(caminho, "r") as f:
+        linhas = f.read().strip().split("\n")
 
-carregar_mapa('C:/Users/PC/Documents/GitHub/roguelike/game/plataformer.csv')
-carregar_coins('C:/Users/PC/Documents/GitHub/roguelike/game/coins.csv')
+     for y, linha in enumerate(linhas):
+        valores = linha.split(",")
+        for x, valor in enumerate(valores):
+            if valor != "-1":
+                obstacle = Actor("obstacle")
+                obstacle.x = x * TILE_SIZE + TILE_SIZE // 2
+                obstacle.y = y * TILE_SIZE + TILE_SIZE // 2
+                plataformas.append(obstacle)
+
+
+load_map('C:/Users/PC/Documents/GitHub/roguelike/game/plataformer.csv')
+load_coins('C:/Users/PC/Documents/GitHub/roguelike/game/coins.csv')
+load_obstacles('C:/Users/PC/Documents/GitHub/roguelike/game/obstacles.csv')
 
 vel_y = 0
 gravidade = 0.5
