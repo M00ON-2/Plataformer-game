@@ -1,22 +1,16 @@
-import math # ? serve pra calculos de posição, colisão e movimento
-
-import pgzrun
-
-TILE_SIZE = 18
-ROWS = 30
-COLS = 20
-
-WIDTH = TILE_SIZE * ROWS
-HEIGHT = TILE_SIZE * COLS 
-TITLE = "BOSTAAAAAAAAAAA"
-
-plataforms = build("plataformer_plataform.csv", TILE_SIZE) 
-
-def update():
-    pass
-
 def draw():
     screen.clear()
-    screen.fill("skyblue")
 
-pgzrun.go()
+    if game_state == "menu":
+        draw_menu()
+        return
+    for block in platforms:
+        block.draw()
+    for obstacle in obstacles:
+        obstacle.draw()
+    for enemy in enemies:
+        enemy.actor.draw()
+    hero.actor.draw()
+    if game_state == "dead":
+        screen.draw.text("YOU DIED!", center=(WIDTH//2, HEIGHT//2),
+                         fontsize=60, color="red", shadow=(2, 2))

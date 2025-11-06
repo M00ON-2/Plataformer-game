@@ -19,6 +19,9 @@ platforms = []
 obstacles = []
 enemies = []
 
+
+
+
 class Hero:
     def __init__(self, x, y):
         self.actor = Actor("hero_idle1", (x, y))
@@ -155,6 +158,21 @@ def toggle_sound():
 def start_music():
     if music_on:
         music.play("bg_music")
+
+def load_obstacles(caminho):  # carrega os obstáculos
+    with open(caminho, "r") as f:
+        linhas = f.read().strip().split("\n")
+    for y, linha in enumerate(linhas):
+        valores = linha.split(",")
+        for x, valor in enumerate(valores):
+            if valor != "-1":
+                obstacle = Actor("obstacle")
+                obstacle.x = x * TILE_SIZE + TILE_SIZE // 2
+                obstacle.y = y * TILE_SIZE + TILE_SIZE // 2
+                obstacles.append(obstacle)
+
+load_obstacles('C:/Users/PC/Documents/GitHub/roguelike/game/obstacles.csv')
+
 
 def draw_menu():
     screen.clear()
