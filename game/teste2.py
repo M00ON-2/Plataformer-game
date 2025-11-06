@@ -232,6 +232,8 @@ def draw():
         return
     for block in platforms:
         block.draw()
+    for obstacle in obstacles:
+        obstacle.draw()
     for enemy in enemies:
         enemy.actor.draw()
     hero.actor.draw()
