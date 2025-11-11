@@ -5,11 +5,7 @@ Trata-se de um jogo de plataforma desenvolvido em Python, utilizando o Pygame Ze
 
 --Tecnologias Utilizadas--
 
-<<<<<<< HEAD
-Python 3
-=======
 Python 
->>>>>>> 388cf4ad363cf8da11ebf725b5635b51deee46df
 
 Pygame Zero
 
@@ -27,8 +23,4 @@ Estrutura modular e comentada para fácil manutenção
 
 --Dica--
 
-<<<<<<< HEAD
 Para melhor visualização dos comentários e anotações no código, recomendo o uso da extensão “Better Comments” desenvolvida por Aaron Bond (disponível no VS Code).
-=======
-Para melhor visualização dos comentários e anotações no código, recomendo o uso da extensão “Better Comments” desenvolvida por Aaron Bond (disponível no VS Code).
->>>>>>> 388cf4ad363cf8da11ebf725b5635b51deee46df
