@@ -153,17 +153,17 @@ def update_menu():
 def handle_border_collision():
     global game_state
 
-    # Limite esquerdo e direito
+    # * esquerdo e direito
     if hero.actor.x < BORDER_THICKNESS + 8:
         hero.actor.x = BORDER_THICKNESS + 8
     elif hero.actor.x > WIDTH - BORDER_THICKNESS - 8: 
         hero.actor.x = WIDTH - BORDER_THICKNESS - 8
 
-    # Limite superior
+    # * Limite superior
     if hero.actor.y < BORDER_THICKNESS + 16:
         hero.actor.y = BORDER_THICKNESS + 16
 
-    # Limite inferior → MORRE ao encostar
+    # * Limite inferior → MORRE ao encostar
     elif hero.actor.y > HEIGHT - BORDER_THICKNESS - 16:
         hero.dead = True
         game_state = "dead"
