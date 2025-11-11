@@ -181,7 +181,7 @@ def check_collisions():
     r = hero.rect()
     for e in enemies:
         if r.colliderect(e.rect()): hero.dead = True; game_state = "dead"; return
-    for o in obstacles:
+    for o in obstacles: 
         if r.colliderect(Rect(o.x - 8, o.y - 8, 16, 16)):
             hero.dead = True; game_state = "dead"
 
