@@ -17,7 +17,7 @@ borders = {
 }
 
 
-class Character: # ! BASE
+class Character: # ! CLASSE BASE
     def __init__(self, img, pos, g=0.5, sp=2):
         self.actor, self.vel_y, self.g, self.sp = Actor(img, pos), 0, g, sp
         self.frame, self.anim_t, self.state = 0, 0, "idle"
@@ -186,7 +186,7 @@ def check_collisions():
             hero.dead = True; game_state = "dead"
 
 def draw():
-    screen.fill((60, 100, 160))  # fundo azul escuro
+    screen.fill((60, 100, 160))  # * fundo azul escuro
     for b in borders.values(): screen.draw.filled_rect(b, BORDER_COLOR)
     if game_state == "menu": draw_menu(); return
     [a.draw() for a in platforms + obstacles]
