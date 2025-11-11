@@ -16,8 +16,8 @@ borders = {
     "right":  Rect(WIDTH - BORDER_THICKNESS, 0, BORDER_THICKNESS, HEIGHT),
 }
 
-# === CLASSE BASE ===
-class Character:
+
+class Character: # ! BASE
     def __init__(self, img, pos, g=0.5, sp=2):
         self.actor, self.vel_y, self.g, self.sp = Actor(img, pos), 0, g, sp
         self.frame, self.anim_t, self.state = 0, 0, "idle"
@@ -52,8 +52,8 @@ class Character:
         if self.dead: return
         self.gravity(); self.check_platforms()
 
-# === HERÓI ===
-class Hero(Character):
+
+class Hero(Character): # ! HEROI (HERDA DA BASE)
     def __init__(self, pos): super().__init__("hero_idle1", pos, 0.5, 3)
 
     def handle_input(self):
@@ -68,8 +68,8 @@ class Hero(Character):
         if self.dead: return
         self.handle_input(); super().update(); self.animate("hero")
 
-# === INIMIGO ===
-class Enemy(Character):
+
+class Enemy(Character): # ! INIMIGO (HERDA DA BASE)
     def __init__(self, pos, l, r):
         super().__init__("enemy_walk1", pos, 0.5, 2)
         self.l, self.r = l, r
@@ -85,8 +85,8 @@ class Enemy(Character):
 hero = Hero((100, 100))
 enemies = [Enemy((300, 150), 260, 340), Enemy((500, 120), 460, 560)]
 
-# === MAPAS ===
-def load_csv(path, func):
+
+def load_csv(path, func): # ! MAPA
     for y, line in enumerate(open(path).read().strip().split("\n")):
         for x, v in enumerate(line.split(",")): func(x, y, v)
 
@@ -108,8 +108,8 @@ def load_obstacles(p):
 load_map('C:/Users/PC/Documents/GitHub/roguelike/game/plataformer.csv')
 load_obstacles('C:/Users/PC/Documents/GitHub/roguelike/game/obstacles.csv')
 
-# === MENU / SOM ===
-def toggle_music():
+
+def toggle_music(): # ! MENU / SOM 
     global music_on
     music_on = not music_on
     if music_on:
@@ -167,7 +167,7 @@ def handle_border_collision():
     elif hero.actor.y > HEIGHT - BORDER_THICKNESS - 16:
         hero.dead = True
         game_state = "dead"
-1
+
 
 def update():
     if game_state == "menu": update_menu(); return
@@ -195,5 +195,6 @@ def draw():
     if game_state == "dead":
         screen.draw.text("YOU DIED!", center=(WIDTH // 2, HEIGHT // 2),
                          fontsize=60, color="red", shadow=(2, 2))
+
 
 pgzrun.go()
